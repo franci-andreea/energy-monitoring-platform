@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components
+{
+    .chat-icon 
+    {
+        @apply absolute bottom-10 right-10 flex items-center justify-center
+               h-16 w-16 mt-2 mb-2 mx-auto shadow-lg
+               bg-purple-500 text-white
+               hover:bg-purple-700 hover:text-white
+               rounded-3xl hover:rounded-xl
+               transition-all duration-300 ease-linear
+               cursor-pointer;
+    }
+}

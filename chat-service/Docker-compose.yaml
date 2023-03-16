@@ -1,0 +1,67 @@
+version: '3'
+services:
+
+  backend:
+    container_name: back-spring
+    image: backend_spring
+    depends_on:
+      - db
+      - rabitmq
+    environment:
+      - DB_IP=db
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_DBNAME=city-db
+      - SPRING_ALLOWED_ORIGIN=http://localhost:3000
+  db:
+    container_name: db
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=city-db
+
+  frontend:
+    container_name: front-react
+    image: frontend_react
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+  rabitmq:
+    container_name: rabitmq
+    image: rabbitmq
+
+  simulator1:
+    container_name: simulator1
+    image: device_simulator
+    depends_on:
+      - rabitmq
+      - backend
+    environment:
+      - SIMULATED_DEVICE_ID=1
+  simulator2:
+    container_name: simulator2
+    image: device_simulator
+    depends_on:
+      - rabitmq
+      - backend
+    environment:
+      - SIMULATED_DEVICE_ID=2
+
+  envoy:
+    image: envoyproxy/envoy:v1.24.1
+    volumes:
+      - ./envoy.yaml:/etc/envoy/envoy.yaml
+    ports:
+      - "9901:9901"
+      - "9000:9000"
+
+  grpcserver:
+    image: grpcserver
+
+volumes:
+  city-db-data:

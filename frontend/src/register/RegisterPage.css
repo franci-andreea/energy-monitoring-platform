@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components
+{
+    .form-box {
+        @apply bg-slate-100
+               p-4 left-32 right-32
+    }
+
+    .back-button {
+        @apply font-poppins text-purple-800
+               rounded-xl border-purple-800 border-2 bg-slate-100
+               hover:bg-purple-800 hover:text-white
+               h-10 w-10
+    }
+
+    .register-button {
+        @apply font-poppins text-white 
+               rounded-xl bg-green-500
+               hover:bg-green-700 hover:text-white
+               hover:border-green-700 border-2
+               h-10 w-48
+    }
+
+    .input-box {
+        @apply rounded-md
+               w-64 h-12
+               p-2
+    }
+
+}

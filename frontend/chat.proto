@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+option java_package = "server.stubs";
+
+message User
+{
+  string username = 1;
+}
+
+message UserList
+{
+  repeated User users = 1;
+}
+
+enum TypingStatus
+{
+  NOT_TYPING = 0;
+  IS_TYPING = 1;
+}
+
+message TypingUser
+{
+  string username = 1;
+  TypingStatus status = 2;
+}
+
+message Empty {}
+
+message Message
+{
+  string sender = 1;
+  string receiver = 2;
+  string content = 3;
+}
+
+message ReadNotification
+{
+  string sender = 1;
+  string receiver = 2;
+}
+
+message TypingNotification
+{
+  TypingUser sender = 1;
+  string receiver = 2;
+}
+
+service ChatService
+{
+  rpc sendMessage(Message) returns (Empty);
+  rpc receiveMessage(User) returns (stream Message);
+  rpc subscribeForTypingUser(User) returns (stream TypingUser);
+  rpc notifyReceiverIsTyping(TypingNotification) returns (Empty);
+  rpc subscribeToMessageHasBeenRead(User) returns (stream User);
+  rpc notifyReceiverHasReadMessages(ReadNotification) returns (Empty);
+}
